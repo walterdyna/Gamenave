@@ -421,3 +421,68 @@ buttonRestart.addEventListener("click", restartGame);
 
 generateStars();
 gameLoop();
+
+
+// mobilidade responsiva
+
+let isMobile = false;
+
+// Detectar dispositivo móvel
+if (/Mobi|Android/i.test(navigator.userAgent)) {
+    isMobile = true;
+    console.log("Modo: Controles por Acelerômetro e Toque");
+} else {
+    console.log("Modo: Controles por Teclado");
+}
+
+// Acelerômetro para dispositivos móveis
+if (isMobile) {
+    window.addEventListener("deviceorientation", (event) => {
+        const tiltLeftRight = event.gamma; // Inclinação esquerda/direita
+
+        if (currentState === GameState.PLAYING && player.alive) {
+            if (tiltLeftRight < -10) {
+                keys.left = true;
+                keys.right = false;
+            } else if (tiltLeftRight > 10) {
+                keys.right = true;
+                keys.left = false;
+            } else {
+                keys.left = false;
+                keys.right = false;
+            }
+        }
+    });
+
+    // Controle de toque para atirar
+    window.addEventListener("touchstart", () => {
+        if (currentState === GameState.PLAYING && player.alive) {
+            keys.shoot.pressed = true;
+        }
+    });
+
+    window.addEventListener("touchend", () => {
+        keys.shoot.pressed = false;
+        keys.shoot.released = true;
+    });
+}
+
+// Teclado para desktop
+addEventListener("keydown", (event) => {
+    const key = event.key.toLowerCase();
+
+    if (key === "a") keys.left = true;
+    if (key === "d") keys.right = true;
+    if (key === "enter") keys.shoot.pressed = true;
+});
+
+addEventListener("keyup", (event) => {
+    const key = event.key.toLowerCase();
+
+    if (key === "a") keys.left = false;
+    if (key === "d") keys.right = false;
+    if (key === "enter") {
+        keys.shoot.pressed = false;
+        keys.shoot.released = true;
+    }
+});
