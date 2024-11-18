@@ -1,4 +1,4 @@
-import Grid from "./classes/Grid.js";
+ import Grid from "./classes/Grid.js";
 import Obstacle from "./classes/Obstacle.js";
 import Particle from "./classes/Particle.js";
 import Player from "./classes/Player.js";
