@@ -486,3 +486,21 @@ addEventListener("keyup", (event) => {
         keys.shoot.released = true;
     }
 });
+
+
+// Seleciona o elemento do texto personalizado
+const customCursor = document.querySelector(".custom-cursor");
+
+// Monitora o movimento do mouse
+document.addEventListener("mousemove", (event) => {
+    const x = event.clientX + 10; // Posição horizontal com ajuste
+    const y = event.clientY + 10; // Posição vertical com ajuste
+
+    // Atualiza a posição do texto
+    customCursor.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// Opcional: Oculta o texto em dispositivos móveis (onde não há cursor visível)
+if (/Mobi|Android/i.test(navigator.userAgent)) {
+    customCursor.style.display = "none";
+}
